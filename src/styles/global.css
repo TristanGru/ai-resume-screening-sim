@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ─────────────────────────────────────────────
+   DESIGN TOKENS
+   ───────────────────────────────────────────── */
+:root {
+  /* Background layers */
+  --bg:              #f3f1ec;
+  --bg-alt:          #eae7e0;
+  --surface:         #ffffff;
+  --surface-inset:   #faf9f7;
+
+  /* Borders */
+  --border:          #ccc9c1;
+  --border-strong:   #9e9b93;
+
+  /* Text */
+  --text:            #1c1a17;
+  --text-secondary:  #5c5852;
+  --text-muted:      #8c8880;
+
+  /* Accent — burnt orange */
+  --accent:          #c84b11;
+  --accent-hover:    #a83c0e;
+  --accent-light:    #fde8d8;
+
+  /* Semantic */
+  --positive:        #166534;
+  --positive-bg:     #dcfce7;
+  --negative:        #991b1b;
+  --negative-bg:     #fee2e2;
+  --warning:         #92400e;
+  --warning-bg:      #fef9ee;
+  --warning-border:  #f0d080;
+
+  /* Screener identity colors (for card accents + chart) */
+  --s1-color: #3730a3;
+  --s2-color: #166534;
+  --s3-color: #b45309;
+  --s4-color: #1d4ed8;
+  --s5-color: #991b1b;
+
+  /* Type scale */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+
+  /* Spacing (4px base) */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* Radius */
+  --r-sm:  3px;
+  --r-md:  5px;
+  --r-lg:  8px;
+  --r-xl:  12px;
+
+  /* Elevation — borders preferred; shadow only for overlays */
+  --shadow-overlay: 0 8px 40px rgba(28, 26, 23, 0.20);
+  --shadow-raised:  0 2px 6px rgba(28, 26, 23, 0.08);
+
+  /* Layout max-widths */
+  --w-input:   800px;
+  --w-results: 1180px;
+  --w-summary: 880px;
+
+  /* Font stacks */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* Legacy aliases kept for backward compatibility with existing components
+     that still reference --color-* tokens. Gradually replace in components. */
+  --color-bg:           var(--bg);
+  --color-surface:      var(--surface);
+  --color-border:       var(--border);
+  --color-text:         var(--text);
+  --color-muted:        var(--text-muted);
+  --color-primary:      var(--accent);
+  --color-primary-hover:var(--accent-hover);
+  --color-danger:       var(--negative);
+  --color-success:      var(--positive);
+  --color-warning:      #f59e0b;
+  --radius:             var(--r-lg);
+  --shadow:             var(--shadow-raised);
+  --shadow-md:          var(--shadow-overlay);
+}
+
+/* ─────────────────────────────────────────────
+   RESET + BASE
+   ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+button { cursor: pointer; font-family: var(--font-sans); }
+textarea, select, input { font-family: var(--font-sans); }
+a { color: var(--accent); }

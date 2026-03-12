@@ -1,0 +1,5 @@
+{
+  "role": "software-engineer-intern",
+  "required": ["JavaScript", "Python", "Java", "Git", "REST", "API", "algorithms", "data structures", "unit testing", "React"],
+  "bonus": ["TypeScript", "Node.js", "AWS", "Docker", "CI/CD", "agile", "scrum", "PostgreSQL", "GraphQL"]
+}

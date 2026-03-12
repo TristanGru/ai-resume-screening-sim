@@ -1,0 +1,33 @@
+.gauge {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  position: relative;
+}
+
+.track {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-alt);
+  border-radius: 2px;
+  overflow: visible;
+  position: relative;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+/* 60-point "passing" threshold marker */
+.track::after {
+  content: '';
+  position: absolute;
+  left: 60%;
+  top: -3px;
+  height: 12px;
+  width: 1px;
+  background: var(--border-strong);
+}

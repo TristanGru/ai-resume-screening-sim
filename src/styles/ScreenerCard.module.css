@@ -1,0 +1,118 @@
+/* Each card gets a left-border accent from a --screener-color CSS var
+   set inline by the parent (see ScreenerCard.jsx). */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--screener-color, var(--border-strong));
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.name {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.scoreBlock {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  margin: var(--sp-1) 0 var(--sp-2);
+}
+
+.scoreNumber {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--screener-color, var(--text));
+}
+
+.scoreSlash {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.delta {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--r-sm);
+  letter-spacing: 0.02em;
+}
+
+.deltaPos {
+  background: var(--positive-bg);
+  color: var(--positive);
+}
+
+.deltaNeg {
+  background: var(--negative-bg);
+  color: var(--negative);
+}
+
+.deltaZero {
+  background: var(--bg-alt);
+  color: var(--text-muted);
+}
+
+.gaugeWrap {
+  margin-bottom: var(--sp-1);
+}
+
+.deductions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.deductions li {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.deductions li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--text-muted);
+}
+
+.suggestion {
+  font-size: var(--text-xs);
+  color: var(--text);
+  background: var(--surface-inset);
+  border-left: 2px solid var(--screener-color, var(--border-strong));
+  padding: 6px 10px;
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  margin-top: var(--sp-1);
+  line-height: 1.5;
+}
+
+.suggestionLabel {
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 2px;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}

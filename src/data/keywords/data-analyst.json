@@ -1,0 +1,5 @@
+{
+  "role": "data-analyst",
+  "required": ["SQL", "Python", "Excel", "Tableau", "Power BI", "ETL", "dashboard", "analysis", "visualization", "data cleaning"],
+  "bonus": ["R", "Snowflake", "dbt", "Looker", "A/B testing", "statistics", "regression", "pandas", "matplotlib"]
+}
