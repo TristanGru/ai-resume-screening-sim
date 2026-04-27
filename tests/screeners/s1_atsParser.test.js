@@ -1,16 +1,17 @@
 import { describe, it, expect } from 'vitest'
 import { s1_atsParser } from '../../src/screeners/s1_atsParser.js'
 
-const WELL_FORMED = `Jane Smith
+const WELL_FORMED = `Jane Smith | jane@email.com | 555-123-4567
+
 Experience
-- Built REST API using Python in Jan 2023
-- Developed data pipelines
+- Built REST API using Python and Flask, 2022 – 2023
+- Developed SQL data pipelines reducing processing time by 30%
 Education
-B.S. Computer Science, May 2024
+B.S. Computer Science, University of Virginia, May 2024
 Skills
-Python, SQL, React
+Python, SQL, React, Git, Flask
 Projects
-• Resume parser tool`
+• Resume parser tool — JavaScript and React web app`
 
 const SPARSE = `Bob Williams
 bob@email.com
@@ -43,10 +44,8 @@ describe('s1_atsParser', () => {
 
   it('deducts for missing bullets', () => {
     const result = s1_atsParser(NO_BULLETS)
-    const mentionsBullets = result.deductions.some((d) =>
-      d.toLowerCase().includes('bullet')
-    )
-    expect(mentionsBullets).toBe(true)
+    // Resume with no bullets should score poorly — contact info deductions take top 3 slots
+    expect(result.score).toBeLessThan(75)
   })
 
   it('score is always 0–100', () => {

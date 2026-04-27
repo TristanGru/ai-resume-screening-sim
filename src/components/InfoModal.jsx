@@ -22,29 +22,34 @@ export default function InfoModal({ isOpen, onClose }) {
         <p className={styles.eyebrow}>About this tool</p>
         <h2>How the Simulation Works</h2>
         <p>
-          <strong>ResumeSimulator</strong> shows you how automated resume screening systems
-          evaluate resumes — and why their scores often conflict with each other.
+          <strong>ResumeSimulator</strong> runs your resume through five automated screening
+          algorithms and shows you what each one sees. The scores frequently conflict — not
+          by accident, but because different systems prioritize different signals.
         </p>
         <ul>
           <li>
-            <strong>5 Screeners</strong> each apply different rules: ATS formatting, keyword
-            matching, seniority fit, impact evidence, and spam detection.
+            <strong>Five screeners, five different rules:</strong> ATS formatting, keyword
+            matching, seniority fit, impact evidence, and spam detection. They do not agree
+            on what a strong resume looks like.
           </li>
           <li>
-            <strong>6 Moves:</strong> Edit your resume and re-run. Improving one screener
-            can hurt another — that tension is the point.
+            <strong>Three guided rounds, then open exploration:</strong> Edit your resume
+            and re-run the screeners. Gaining on one screener often costs you on another.
+            That tension is the point.
           </li>
           <li>
-            <strong>Robust Score:</strong> An overall score that penalizes high spam risk,
-            showing how over-optimization backfires.
+            <strong>Robust Score:</strong> An average of all five screeners with a spam
+            penalty applied. A resume that games one algorithm at the expense of the others
+            will not score well here.
           </li>
           <li>
-            <strong>No real employer</strong> uses this system. It is a learning tool only.
+            <strong>No real employer</strong> uses this exact system. It is a simulation,
+            built to surface how ATS logic works and who it disadvantages.
           </li>
         </ul>
         <p>
-          The goal is to build critical intuition about AI-based hiring tools — their
-          limitations, their conflicts, and who they may disadvantage.
+          The goal is to understand AI-based hiring tools not just as technical systems, but
+          as structures that shape access to opportunity — unequally.
         </p>
       </div>
     </div>

@@ -1,33 +1,32 @@
+/* ScoreGauge — arcade style: chunky bar with hard border */
 .gauge {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-  position: relative;
+  width: 100%;
 }
 
 .track {
-  flex: 1;
-  height: 6px;
+  width: 100%;
+  height: 10px;
   background: var(--bg-alt);
-  border-radius: 2px;
-  overflow: visible;
+  border: 1.5px solid var(--text);
+  border-radius: 999px;
+  overflow: hidden;
   position: relative;
 }
 
 .fill {
   height: 100%;
-  border-radius: 2px;
-  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+  border-radius: 999px;
+  transition: width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* 60-point "passing" threshold marker */
+/* Threshold tick at 60 (passing) */
 .track::after {
   content: '';
   position: absolute;
   left: 60%;
-  top: -3px;
-  height: 12px;
-  width: 1px;
-  background: var(--border-strong);
+  top: -2px;
+  bottom: -2px;
+  width: 1.5px;
+  background: var(--text);
+  opacity: 0.55;
 }

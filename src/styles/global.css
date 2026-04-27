@@ -1,44 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
-
 /* ─────────────────────────────────────────────
-   DESIGN TOKENS
+   ARCADE EDITION — global tokens
+   Playful, kinetic, game-forward. Lavender + butter palette.
    ───────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 :root {
-  /* Background layers */
-  --bg:              #f3f1ec;
-  --bg-alt:          #eae7e0;
+  /* Background */
+  --bg:              #f4ecff;
+  --bg-alt:          #fff7ec;
   --surface:         #ffffff;
-  --surface-inset:   #faf9f7;
+  --surface-inset:   #fff7ec;
 
   /* Borders */
-  --border:          #ccc9c1;
-  --border-strong:   #9e9b93;
+  --border:          #d6cce8;
+  --border-strong:   #1a1530;
 
   /* Text */
-  --text:            #1c1a17;
-  --text-secondary:  #5c5852;
-  --text-muted:      #8c8880;
+  --text:            #1a1530;
+  --text-secondary:  #3a2f55;
+  --text-muted:      #7b6ff0;
 
-  /* Accent — burnt orange */
-  --accent:          #c84b11;
-  --accent-hover:    #a83c0e;
-  --accent-light:    #fde8d8;
+  /* Accent — lavender + butter */
+  --accent:          #1a1530;
+  --accent-hover:    #2a2050;
+  --accent-light:    #ffe066;
+  --pop:             #ffe066;
 
   /* Semantic */
-  --positive:        #166534;
-  --positive-bg:     #dcfce7;
-  --negative:        #991b1b;
-  --negative-bg:     #fee2e2;
-  --warning:         #92400e;
-  --warning-bg:      #fef9ee;
-  --warning-border:  #f0d080;
+  --positive:        #2d5d3f;
+  --positive-bg:     #daf0e7;
+  --negative:        #8a2a2a;
+  --negative-bg:     #fbdde4;
+  --warning:         #8a5a14;
+  --warning-bg:      #fbe7c2;
+  --warning-border:  #f4a93a;
 
-  /* Screener identity colors (for card accents + chart) */
-  --s1-color: #3730a3;
-  --s2-color: #166534;
-  --s3-color: #b45309;
-  --s4-color: #1d4ed8;
-  --s5-color: #991b1b;
+  /* Screener identity colors — saturated arcade hues */
+  --s1-color: #7b6ff0;
+  --s2-color: #3eb489;
+  --s3-color: #f4a93a;
+  --s4-color: #5b8def;
+  --s5-color: #e0567a;
+
+  --s1-tint: #e6e1fb;
+  --s2-tint: #daf0e7;
+  --s3-tint: #fbe7c2;
+  --s4-tint: #dde7fb;
+  --s5-tint: #fbdde4;
 
   /* Type scale */
   --text-xs:   0.75rem;
@@ -49,40 +57,37 @@
   --text-2xl:  1.5rem;
   --text-3xl:  1.875rem;
   --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
 
-  /* Spacing (4px base) */
-  --sp-1:  4px;
-  --sp-2:  8px;
-  --sp-3:  12px;
-  --sp-4:  16px;
-  --sp-5:  20px;
-  --sp-6:  24px;
-  --sp-8:  32px;
-  --sp-10: 40px;
-  --sp-12: 48px;
-  --sp-16: 64px;
+  /* Spacing */
+  --sp-1:  4px;  --sp-2:  8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px;  --sp-6: 24px;  --sp-8: 32px; --sp-10: 40px;
+  --sp-12: 48px; --sp-16: 64px;
 
-  /* Radius */
-  --r-sm:  3px;
-  --r-md:  5px;
-  --r-lg:  8px;
-  --r-xl:  12px;
+  /* Radius — generous, rounded */
+  --r-sm:  8px;
+  --r-md:  12px;
+  --r-lg:  16px;
+  --r-xl:  24px;
 
-  /* Elevation — borders preferred; shadow only for overlays */
-  --shadow-overlay: 0 8px 40px rgba(28, 26, 23, 0.20);
-  --shadow-raised:  0 2px 6px rgba(28, 26, 23, 0.08);
+  /* Elevation — chunky drop shadows (arcade signature) */
+  --shadow-sm:      2px 2px 0 var(--text);
+  --shadow-md:      3px 3px 0 var(--text);
+  --shadow-lg:      4px 4px 0 var(--text);
+  --shadow-pop:     4px 4px 0 var(--pop);
+  --shadow-overlay: 0 8px 40px rgba(26, 21, 48, 0.24);
 
-  /* Layout max-widths */
-  --w-input:   800px;
-  --w-results: 1180px;
-  --w-summary: 880px;
+  /* Layout */
+  --w-input:   880px;
+  --w-results: 1200px;
+  --w-summary: 1100px;
 
-  /* Font stacks */
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  /* Fonts */
+  --font-sans:    'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
 
-  /* Legacy aliases kept for backward compatibility with existing components
-     that still reference --color-* tokens. Gradually replace in components. */
+  /* Legacy aliases */
   --color-bg:           var(--bg);
   --color-surface:      var(--surface);
   --color-border:       var(--border);
@@ -92,20 +97,13 @@
   --color-primary-hover:var(--accent-hover);
   --color-danger:       var(--negative);
   --color-success:      var(--positive);
-  --color-warning:      #f59e0b;
-  --radius:             var(--r-lg);
-  --shadow:             var(--shadow-raised);
-  --shadow-md:          var(--shadow-overlay);
+  --color-warning:      var(--warning);
+  --radius:             var(--r-md);
+  --shadow:             var(--shadow-md);
+  --shadow-md-legacy:   var(--shadow-overlay);
 }
 
-/* ─────────────────────────────────────────────
-   RESET + BASE
-   ───────────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   font-size: 16px;
@@ -115,10 +113,12 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background: linear-gradient(180deg, #f4ecff 0%, #fff7ec 100%);
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-sans);
   min-height: 100vh;
+  letter-spacing: -0.005em;
 }
 
 #root {
@@ -129,4 +129,8 @@ body {
 
 button { cursor: pointer; font-family: var(--font-sans); }
 textarea, select, input { font-family: var(--font-sans); }
-a { color: var(--accent); }
+a { color: var(--s1-color); }
+
+/* Common arcade primitives */
+.ar-display { font-family: var(--font-display); letter-spacing: -0.02em; }
+.ar-mono    { font-family: var(--font-mono); }
