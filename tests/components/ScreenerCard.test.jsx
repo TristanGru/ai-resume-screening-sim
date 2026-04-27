@@ -34,16 +34,16 @@ describe('ScreenerCard', () => {
 
   it('renders positive delta badge', () => {
     render(<ScreenerCard {...minimalProps} delta={7} />)
-    expect(screen.getByText('+7')).toBeTruthy()
+    expect(screen.getByText(/\+7/)).toBeTruthy()
   })
 
   it('renders negative delta badge', () => {
     render(<ScreenerCard {...minimalProps} delta={-3} />)
-    expect(screen.getByText('-3')).toBeTruthy()
+    expect(screen.getByText(/-3/)).toBeTruthy()
   })
 
   it('renders zero delta badge', () => {
     render(<ScreenerCard {...minimalProps} delta={0} />)
-    expect(screen.getByText('0')).toBeTruthy()
+    expect(screen.getByText(/— 0/)).toBeTruthy()
   })
 })

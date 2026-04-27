@@ -3,12 +3,8 @@ import { s2_keywordMatch } from './s2_keywordMatch.js'
 import { s3_seniorityFit } from './s3_seniorityFit.js'
 import { s4_impactEvidence } from './s4_impactEvidence.js'
 import { s5_spamRisk } from './s5_spamRisk.js'
+import { BUNDLED_JDS } from '../data/bundledJDs.js'
 
-/**
- * Compute the Robust Score.
- * Formula: mean(s1..s5) - max(0, (100 - s5.score) * 0.2)
- * Rounded to 1 decimal place.
- */
 export function computeRobustScore(results) {
   const mean = results.reduce((sum, r) => sum + r.score, 0) / results.length
   const s5Score = results.find((r) => r.screenerID === 's5')?.score ?? 100
@@ -16,11 +12,10 @@ export function computeRobustScore(results) {
   return Math.round((mean - spamPenalty) * 10) / 10
 }
 
-/**
- * Run all 5 screeners and return results + robust score.
- */
-export function runAllScreeners(resumeText, role, jdText = '') {
+export function runAllScreeners(resumeText, role) {
   console.info('[runAllScreeners]', { role, resumeText: resumeText.slice(0, 60) })
+
+  const jdText = BUNDLED_JDS[role] || ''
 
   const results = [
     s1_atsParser(resumeText),

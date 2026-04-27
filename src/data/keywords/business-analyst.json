@@ -1,5 +1,5 @@
 {
   "role": "business-analyst",
-  "required": ["requirements", "stakeholder", "SQL", "Excel", "Agile", "user stories", "process improvement", "Jira", "Confluence", "KPI"],
-  "bonus": ["Tableau", "Power BI", "BPMN", "gap analysis", "roadmap", "sprint", "UAT", "workflow"]
+  "required": ["requirements", "stakeholder", "SQL", "Excel", "Agile", "user stories", "process improvement", "Jira", "Confluence", "KPI", "documentation", "workflow", "recommendation", "gap analysis", "sprint"],
+  "bonus": ["Tableau", "Power BI", "BPMN", "roadmap", "UAT", "backlog", "ROI", "use cases", "Visio"]
 }

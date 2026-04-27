@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext.jsx'
-import { sampleResumes } from '../data/sampleResumes.js'
+import { STARTER_RESUMES } from '../data/sampleResumes.js'
+import { BUNDLED_JDS } from '../data/bundledJDs.js'
 import InfoModal from '../components/InfoModal.jsx'
 import styles from '../styles/InputPage.module.css'
 
@@ -19,9 +20,9 @@ const SCREENERS = [
   { id: 's5', label: 'Spam Risk', color: 'var(--s5-color)' },
 ]
 
-const QUESTS = [
-  { num: 1, title: 'Fix Structure', desc: 'Make the parser happy' },
-  { num: 2, title: 'Match Keywords', desc: 'Speak the role’s language' },
+const ROUNDS = [
+  { num: 1, title: 'Structure & Keywords', desc: 'Make the parser happy, speak the role's language' },
+  { num: 2, title: 'Role Signals & Impact', desc: 'Prove you fit, show what you achieved' },
   { num: 3, title: 'Find the Balance', desc: 'Win without triggering spam' },
 ]
 
@@ -32,20 +33,24 @@ export default function InputPage() {
 
   const resumeText = state.currentResumeText
   const role = state.role
-  const jdText = state.jdText
 
   const isDisabled = resumeText.trim().length < 50 || !role
+
+  function handleRoleChange(value) {
+    dispatch({ type: 'SET_ROLE', payload: { role: value || null } })
+    if (value) {
+      const currentText = state.currentResumeText.trim()
+      const isStarterOrEmpty =
+        !currentText || Object.values(STARTER_RESUMES).some((r) => r.trim() === currentText)
+      if (isStarterOrEmpty) {
+        dispatch({ type: 'UPDATE_RESUME', payload: { resumeText: STARTER_RESUMES[value] } })
+      }
+    }
+  }
 
   function handleRunScreeners() {
     dispatch({ type: 'RUN_SCREENERS', payload: { resumeText } })
     navigate('/results')
-  }
-
-  function handleSampleSelect(e) {
-    const idx = parseInt(e.target.value, 10)
-    if (!isNaN(idx) && sampleResumes[idx]) {
-      dispatch({ type: 'UPDATE_RESUME', payload: { resumeText: sampleResumes[idx].text } })
-    }
   }
 
   return (
@@ -94,9 +99,9 @@ export default function InputPage() {
 
         <aside className={styles.questCard}>
           <span className={styles.questBadge}>★ Your Quest</span>
-          <h2 className={styles.questTitle}>Three rounds. One impossible balance.</h2>
+          <h2 className={styles.questTitle}>Three rounds. Then hunt achievements.</h2>
           <ol className={styles.questList}>
-            {QUESTS.map((q) => (
+            {ROUNDS.map((q) => (
               <li key={q.num} className={styles.questItem}>
                 <span className={styles.questNum}>{q.num}</span>
                 <div>
@@ -106,99 +111,67 @@ export default function InputPage() {
               </li>
             ))}
           </ol>
+          <div className={styles.explorationNote}>
+            After round 3 → Exploration Mode: 5 moves to collect achievements and climb the leaderboard.
+          </div>
         </aside>
       </div>
 
       {/* ── Form card ── */}
       <div className={styles.form}>
-        <div className={styles.row}>
-          <div className={styles.field} style={{ marginBottom: 0 }}>
-            <div className={styles.labelRow}>
-              <label htmlFor="role-select" className={styles.label}>
-                Target Role <span className={styles.required}>*</span>
-              </label>
-            </div>
-            <select
-              id="role-select"
-              className={styles.select}
-              value={role || ''}
-              onChange={(e) =>
-                dispatch({ type: 'SET_ROLE', payload: { role: e.target.value || null } })
-              }
-            >
-              <option value="">Select a role…</option>
-              {ROLES.map((r) => (
-                <option key={r.value} value={r.value}>
-                  {r.label}
-                </option>
-              ))}
-            </select>
+        <div className={styles.field}>
+          <div className={styles.labelRow}>
+            <label htmlFor="role-select" className={styles.label}>
+              Target Role <span className={styles.required}>*</span>
+            </label>
+            <span className={styles.hint}>your starter resume loads automatically</span>
           </div>
-
-          <div className={styles.field} style={{ marginBottom: 0 }}>
-            <div className={styles.labelRow}>
-              <label htmlFor="sample-select" className={styles.label}>
-                Or load a sample
-              </label>
-            </div>
-            <select
-              id="sample-select"
-              className={styles.select}
-              defaultValue=""
-              onChange={handleSampleSelect}
-            >
-              <option value="">Choose a sample…</option>
-              {sampleResumes.map((s, i) => (
-                <option key={i} value={i}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          <select
+            id="role-select"
+            className={styles.select}
+            value={role || ''}
+            onChange={(e) => handleRoleChange(e.target.value || null)}
+          >
+            <option value="">Select a role…</option>
+            {ROLES.map((r) => (
+              <option key={r.value} value={r.value}>
+                {r.label}
+              </option>
+            ))}
+          </select>
         </div>
+
+        {role && BUNDLED_JDS[role] && (
+          <div className={styles.jdCallout}>
+            <span className={styles.jdCalloutLabel}>★ You&apos;ll be scored against this job description</span>
+            <p className={styles.jdCalloutText}>{BUNDLED_JDS[role]}</p>
+          </div>
+        )}
 
         <div className={styles.field}>
           <div className={styles.labelRow}>
             <label htmlFor="resume-input" className={styles.label}>
               Resume Text <span className={styles.required}>*</span>
             </label>
-            <span className={styles.hint}>plain text · min 50 chars</span>
+            <span className={styles.hint}>
+              {role ? 'starter resume loaded — edit or replace it' : 'select a role first'}
+            </span>
           </div>
           <textarea
             id="resume-input"
             className={styles.textarea}
-            rows={14}
+            rows={16}
             value={resumeText}
             onChange={(e) =>
               dispatch({ type: 'UPDATE_RESUME', payload: { resumeText: e.target.value } })
             }
-            placeholder="Paste your resume text here…"
+            placeholder={role ? 'Your starter resume will appear here…' : 'Select a role above to load your starter resume…'}
             spellCheck={false}
           />
           <span className={styles.charCount}>
             {resumeText.trim().length} chars
             {resumeText.trim().length < 50 && ` — need ${50 - resumeText.trim().length} more`}
           </span>
-        </div>
-
-        <div className={styles.field}>
-          <div className={styles.labelRow}>
-            <label htmlFor="jd-input" className={styles.label}>
-              Job Description
-            </label>
-            <span className={styles.hint}>optional · feeds Keyword Match</span>
-          </div>
-          <textarea
-            id="jd-input"
-            className={styles.textarea}
-            rows={4}
-            value={jdText}
-            onChange={(e) =>
-              dispatch({ type: 'SET_JD', payload: { jdText: e.target.value } })
-            }
-            placeholder="Paste the job description to sharpen keyword matching…"
-            spellCheck={false}
-          />
         </div>
 
         <hr className={styles.divider} />

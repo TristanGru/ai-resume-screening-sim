@@ -3,8 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext.jsx'
 import { ACHIEVEMENTS } from '../context/reducer.js'
 import { computeLeaderboardScore, getLeaderboard, addLeaderboardEntry } from '../utils/leaderboard.js'
+import { BUNDLED_JD_LABELS } from '../data/bundledJDs.js'
 import TrajectoryChart from '../components/TrajectoryChart.jsx'
 import styles from '../styles/SummaryPage.module.css'
+
+const ROLE_LABELS = {
+  'data-analyst': 'Data Analyst',
+  'software-engineer-intern': 'Software Engineer Intern',
+  'business-analyst': 'Business Analyst',
+}
 
 function buildTradeoffCallout(moveHistory) {
   if (moveHistory.length < 2) return 'You did not make any edits. Edit the resume and re-run to see how your changes affect each screener.'
@@ -59,22 +66,23 @@ const TAKEAWAYS = [
 export default function SummaryPage() {
   const { state, dispatch } = useAppContext()
   const navigate = useNavigate()
-  const { moveHistory, achievements } = state
+  const { moveHistory, achievements, role } = state
 
   const firstRun = moveHistory[0]
   const lastRun = moveHistory[moveHistory.length - 1]
   const tradeoffCallout = buildTradeoffCallout(moveHistory)
   const totalMoves = moveHistory.length - 1
   const finalScore = computeLeaderboardScore(lastRun.robustScore, achievements)
+  const roleLabel = ROLE_LABELS[role] || role || 'Unknown Role'
 
   const [playerName, setPlayerName] = useState('')
-  const [leaderboard, setLeaderboard] = useState(() => getLeaderboard())
+  const [leaderboard, setLeaderboard] = useState(() => getLeaderboard(role))
   const [submitted, setSubmitted] = useState(false)
 
   function handleSubmitScore() {
     const trimmed = playerName.trim()
     if (!trimmed) return
-    const newBoard = addLeaderboardEntry(trimmed, lastRun.robustScore, achievements)
+    const newBoard = addLeaderboardEntry(trimmed, lastRun.robustScore, achievements, role)
     setLeaderboard(newBoard)
     setSubmitted(true)
   }
@@ -102,12 +110,13 @@ export default function SummaryPage() {
           {achievements.length > 0 && (
             <>{' · '}<span className={styles.metaStrong}>{achievements.length}</span> achievement{achievements.length !== 1 ? 's' : ''}</>
           )}
+          {' · '}<span className={styles.metaRole}>{roleLabel}</span>
         </p>
       </header>
 
-      {/* ── Leaderboard (moved to top) ── */}
+      {/* ── Leaderboard ── */}
       <section className={styles.leaderboardSection}>
-        <p className={styles.sectionLabel}>Final Score</p>
+        <p className={styles.sectionLabel}>Final Score — {roleLabel} Leaderboard</p>
         <div className={styles.leaderboardCard}>
           <div className={styles.scoreBreakdown}>
             <span className={styles.finalScoreNum}>{finalScore}</span>
@@ -140,7 +149,7 @@ export default function SummaryPage() {
             </div>
           ) : (
             <p className={styles.submittedMsg}>
-              {myRank ? `★ You ranked #${myRank} on this device's leaderboard` : 'Score submitted!'}
+              {myRank ? `★ You ranked #${myRank} on the ${roleLabel} leaderboard` : 'Score submitted!'}
             </p>
           )}
 
@@ -174,6 +183,12 @@ export default function SummaryPage() {
                 ))}
               </tbody>
             </table>
+          )}
+
+          {leaderboard.length === 0 && !submitted && (
+            <p className={styles.emptyLeaderboard}>
+              No scores yet for {roleLabel}. Be the first to submit!
+            </p>
           )}
         </div>
       </section>

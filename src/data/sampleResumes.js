@@ -1,75 +1,81 @@
-export const sampleResumes = [
-  {
-    label: 'Well-Structured Resume',
-    text: `Jane Smith
-jane.smith@email.com | (555) 123-4567 | linkedin.com/in/janesmith
+export const STARTER_RESUMES = {
+  'business-analyst': `Jordan Lee
+jordan.lee@email.com | (555) 234-5678
 
 Education
-B.S. Computer Science, University of Virginia, May 2024
-GPA: 3.7/4.0 | Relevant Coursework: Algorithms, Data Structures, Databases, Software Engineering
+B.S. Business Administration, State University, Expected May 2025
 
 Experience
-Software Engineering Intern — TechCorp, Richmond VA (Jun 2023 – Aug 2023)
-- Developed a REST API using Python and Flask, reducing data retrieval time by 40%
-- Implemented unit testing with pytest, achieving 85% code coverage
-- Collaborated with a team of 5 engineers using Git and Agile workflows
-- Deployed microservices to AWS using Docker and CI/CD pipelines
+Operations Intern — Lakeside Consulting, Richmond VA (Jun 2023 – Aug 2023)
+- Responsible for organizing and distributing project documentation to team members
+- Helped with scheduling weekly team meetings and recording discussion notes
+- Assisted in preparing monthly status updates for department leadership
+- Worked on coordinating logistics and follow-ups for ongoing client projects
 
-Data Science Intern — AnalyticsPlus, Charlottesville VA (May 2022 – Aug 2022)
-- Built SQL queries to clean and analyze 500,000-row datasets in PostgreSQL
-- Created Tableau dashboards to visualize KPIs for 3 business stakeholders
-- Applied Python (pandas, matplotlib) to generate weekly automated reports
+Administrative Assistant — Campus Student Center, State University (Sep 2022 – May 2023)
+- Responsible for handling inquiries from students and directing them to the right resources
+- Helped coordinate logistics for campus programming events throughout the year
+- Assisted with maintaining and organizing office records and filing systems
 
 Projects
-Resume Parser Tool (Jan 2024)
-- Built a JavaScript and React web app that parses resumes and extracts keywords
-- Integrated GraphQL API for real-time data fetching
+Student Organization Budget Tracker (Spring 2023)
+- Helped a student club track donations and expenses across the semester
+- Responsible for compiling the end-of-semester financial summary report
 
 Skills
-Languages: Python, JavaScript, Java, SQL, TypeScript
-Tools: Git, Docker, AWS, React, Node.js, Tableau, Excel
-Methodologies: Agile, Scrum, unit testing, REST APIs, data structures`,
-  },
-  {
-    label: 'Keyword-Stuffed Resume',
-    text: `Alex Johnson
-alex@email.com
+Microsoft Excel, Word, PowerPoint, Google Workspace, Outlook`,
+
+  'data-analyst': `Alex Chen
+alex.chen@email.com | (555) 345-6789
 
 Education
-B.S. Business, State University, 2023
+B.S. Statistics, Westfield University, Expected Dec 2024
 
 Experience
-Data Analyst — Generic Co (2022–2023)
-- SQL SQL SQL Python Python Excel Excel Tableau Power BI ETL dashboard analysis visualization data cleaning
-- JavaScript React API REST Git algorithms data structures unit testing Java Python
-- Requirements stakeholder Agile user stories process improvement Jira Confluence KPI
-- Synergy leverage paradigm disruptive innovative thought leader holistic proactive dynamic passionate
-- Results-driven self-starter go-getter team player detail-oriented hard worker strategic visionary cutting-edge
-- SQL Python Excel Tableau Power BI ETL dashboard analysis visualization data cleaning R Snowflake
-- dbt Looker A/B testing statistics regression pandas matplotlib TypeScript Node.js AWS Docker
-- CI/CD agile scrum PostgreSQL GraphQL BPMN gap analysis roadmap sprint UAT workflow
+Research Assistant — Westfield University, Department of Economics (Jan 2023 – May 2023)
+- Responsible for entering and organizing survey data collected from fieldwork
+- Helped with reviewing and checking records for errors or inconsistencies
+- Assisted researchers in preparing summaries of collected information
+- Worked on formatting and compiling reference materials for faculty use
+
+Marketing Intern — Local Business Inc., Charlottesville VA (Jun 2022 – Aug 2022)
+- Responsible for monitoring and recording social media engagement on a weekly basis
+- Helped with drafting captions and scheduling content for the company's accounts
+- Assisted in organizing customer feedback forms and compiling basic summaries
+- Worked on updating the company's contact list in a shared document
+
+Projects
+Class Research Project (Fall 2022)
+- Helped a class team compile survey results from 40 respondents into a final report
+- Responsible for organizing the data and writing the summary section
 
 Skills
-SQL, Python, Excel, Tableau, Power BI, ETL, dashboard, analysis, visualization, data cleaning, R, Snowflake, dbt, Looker, A/B testing, statistics, regression, pandas, matplotlib, JavaScript, React, API, REST, Git, algorithms, data structures, unit testing, Java, TypeScript, Node.js, AWS, Docker, CI/CD, agile, scrum, PostgreSQL, GraphQL, requirements, stakeholder, Agile, user stories, process improvement, Jira, Confluence, KPI, Tableau, Power BI, BPMN, gap analysis, roadmap, sprint, UAT, workflow`,
-  },
-  {
-    label: 'Sparse Resume',
-    text: `Bob Williams
-bob@email.com
+Microsoft Excel, Google Sheets, PowerPoint, Word`,
 
-Work History
-Company A (2021–2022)
-- Helped with various tasks
-- Worked on projects
-- Assisted with team needs
-- Responsible for reports
-
-Company B (2020–2021)
-- Helped coordinate meetings
-- Worked on spreadsheets
-- Responsible for data entry
+  'software-engineer-intern': `Morgan Taylor
+morgan.taylor@email.com | (555) 456-7890
 
 Education
-Some College, 2020`,
-  },
-]
+B.S. Computer Science, Riverside University, Expected May 2026
+Relevant Coursework: Introduction to Programming, Discrete Math, Linear Algebra
+
+Experience
+IT Help Desk Assistant — Riverside University (Sep 2023 – Present)
+- Responsible for responding to student and faculty technology support tickets
+- Helped with setting up and maintaining lab computers and equipment
+- Assisted in logging and tracking issues submitted to the help desk system
+- Worked on creating basic how-to guides for common software problems
+
+Retail Associate — Campus Bookstore (Aug 2022 – Aug 2023)
+- Responsible for assisting customers in locating products and completing purchases
+- Helped with restocking shelves and organizing inventory during store hours
+- Worked on processing returns and exchanges at the customer service desk
+
+Projects
+Personal Study Planner (Fall 2023)
+- Helped design a simple schedule tool for organizing weekly coursework
+- Responsible for planning the layout and writing instructions for other students
+
+Skills
+Python, Microsoft Office, Google Workspace`,
+}

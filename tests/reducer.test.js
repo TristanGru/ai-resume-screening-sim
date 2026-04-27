@@ -2,9 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { reducer, initialState } from '../src/context/reducer.js'
 
 const sampleResume = `Jane Smith
+jane.smith@email.com | (555) 123-4567
 Experience
-- Built REST API using Python and Flask
-- Developed SQL queries to analyze datasets
+- Built REST API using Python and Flask, reducing latency by 40%
+- Developed SQL queries to analyze large datasets
 Education
 B.S. Computer Science, University of Virginia, May 2024
 Skills
@@ -20,11 +21,6 @@ describe('reducer', () => {
     expect(state.currentRound).toBe(1)
   })
 
-  it('SET_JD updates jdText', () => {
-    const state = reducer(initialState, { type: 'SET_JD', payload: { jdText: 'Looking for a data analyst' } })
-    expect(state.jdText).toBe('Looking for a data analyst')
-  })
-
   it('RUN_SCREENERS populates moveHistory and sets currentResumeText', () => {
     let state = reducer(initialState, { type: 'SET_ROLE', payload: { role: 'data-analyst' } })
     state = reducer(state, { type: 'RUN_SCREENERS', payload: { resumeText: sampleResume } })
@@ -34,6 +30,7 @@ describe('reducer', () => {
     expect(state.currentResumeText).toBe(sampleResume)
     expect(state.gamePhase).toBe('guided')
     expect(state.currentRound).toBe(1)
+    expect(state.explorationBaseline).toBeNull()
   })
 
   it('UPDATE_RESUME updates currentResumeText', () => {
@@ -52,7 +49,7 @@ describe('reducer', () => {
     expect(state.gamePhase).toBe('guided')
   })
 
-  it('RERUN_SCREENERS transitions to exploration after round 3', () => {
+  it('RERUN_SCREENERS transitions to exploration after round 3 and sets explorationBaseline', () => {
     let state = {
       ...initialState,
       role: 'data-analyst',
@@ -64,6 +61,37 @@ describe('reducer', () => {
     state = reducer(state, { type: 'RERUN_SCREENERS' })
     expect(state.gamePhase).toBe('exploration')
     expect(state.moveHistory).toHaveLength(2)
+    expect(typeof state.explorationBaseline).toBe('number')
+  })
+
+  it('RERUN_SCREENERS in exploration increments explorationMoves', () => {
+    let state = {
+      ...initialState,
+      role: 'data-analyst',
+      currentResumeText: sampleResume,
+      gamePhase: 'exploration',
+      explorationMoves: 2,
+      explorationBaseline: 50,
+      moveHistory: [{ moveIndex: 0, resumeSnapshot: sampleResume, results: [], robustScore: 50 }],
+    }
+    state = reducer(state, { type: 'RERUN_SCREENERS' })
+    expect(state.explorationMoves).toBe(3)
+    expect(state.gamePhase).toBe('exploration')
+  })
+
+  it('RERUN_SCREENERS transitions to complete after 5 exploration moves', () => {
+    let state = {
+      ...initialState,
+      role: 'data-analyst',
+      currentResumeText: sampleResume,
+      gamePhase: 'exploration',
+      explorationMoves: 4,
+      explorationBaseline: 50,
+      moveHistory: [{ moveIndex: 0, resumeSnapshot: sampleResume, results: [], robustScore: 50 }],
+    }
+    state = reducer(state, { type: 'RERUN_SCREENERS' })
+    expect(state.explorationMoves).toBe(5)
+    expect(state.gamePhase).toBe('complete')
   })
 
   it('RESET returns to initialState', () => {
