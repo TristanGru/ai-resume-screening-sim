@@ -44,7 +44,7 @@ export function s1_atsParser(resumeText) {
     // ── 3. Date Range Quality ────────────────────────────────────────────────
     // ATS calculates experience duration from date ranges — these are critical.
     const dateRangePattern =
-      /\b(20\d{2}|19\d{2})\s*[-–—]\s*(20\d{2}|19\d{2}|present|current|now)\b/i
+      /\b(?:(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+)?(20\d{2}|19\d{2})\s*[-–—]\s*(?:(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+)?(20\d{2}|19\d{2}|present|current|now)\b/i
     const hasDateRange = dateRangePattern.test(text)
     if (!hasDateRange) {
       score -= 10
