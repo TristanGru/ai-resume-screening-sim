@@ -104,7 +104,7 @@ export default function SummaryPage() {
         <span className={styles.eyebrow}>★ Run Complete</span>
         <h2 className={styles.pageTitle}>Game Over</h2>
         <p className={styles.meta}>
-          <span className={styles.metaStrong}>{totalMoves}</span> edit{totalMoves !== 1 ? 's' : ''}
+          <span className={styles.metaStrong}>{totalMoves}</span> run{totalMoves !== 1 ? 's' : ''}
           {' · '}Robust Score{' '}
           <span className={styles.metaStrong}>{lastRun.robustScore}</span>
           {achievements.length > 0 && (

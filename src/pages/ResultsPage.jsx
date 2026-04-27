@@ -56,7 +56,7 @@ export default function ResultsPage() {
 
   const {
     moveHistory, gamePhase, currentRound, achievements,
-    explorationMoves, currentResumeText,
+    explorationMoves, explorationEdits, currentResumeText,
   } = state
 
   const currentMove = moveHistory[moveHistory.length - 1]
@@ -123,7 +123,7 @@ export default function ResultsPage() {
       ? `Round ${currentRound - 1} Complete`
       : isComplete
       ? 'Exploration Complete'
-      : `Exploration · Edit ${explorationMoves}`
+      : `Exploration · Edit ${explorationEdits}`
 
   return (
     <div className={styles.page}>
@@ -287,12 +287,17 @@ export default function ResultsPage() {
         <div className={styles.editorPanel}>
           <p className={styles.editorHeading}>
             {isGuided
-              ? `★ Round ${currentRound} — Edit & Re-Run`
+              ? `★ Round ${currentRound} — Edit, then Complete`
               : isComplete
               ? '★ Exploration Complete'
               : `★ Exploration — ${movesRemaining} move${movesRemaining !== 1 ? 's' : ''} left`}
           </p>
-          <ResumeEditor value={currentResumeText} onChange={handleEditorChange} disabled={isComplete} />
+          <ResumeEditor
+            value={currentResumeText}
+            onChange={handleEditorChange}
+            disabled={isComplete}
+            label={isGuided ? `Edit your resume, then click Complete Round ${currentRound}:` : 'Edit your resume below:'}
+          />
 
           {isComplete ? (
             <button className={styles.reRunBtn} onClick={() => navigate('/summary')}>
@@ -306,7 +311,7 @@ export default function ResultsPage() {
 
           {isExploration && (
             <p className={styles.explorationNote}>
-              {explorationMoves} edit{explorationMoves !== 1 ? 's' : ''} used ·{' '}
+              {explorationEdits} edit{explorationEdits !== 1 ? 's' : ''} used · {explorationMoves} run{explorationMoves !== 1 ? 's' : ''} used ·{' '}
               {achievements.length} achievement{achievements.length !== 1 ? 's' : ''} earned
             </p>
           )}

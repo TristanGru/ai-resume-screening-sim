@@ -1,10 +1,10 @@
 import styles from '../styles/ResumeEditor.module.css'
 
-export default function ResumeEditor({ value, onChange, disabled }) {
+export default function ResumeEditor({ value, onChange, disabled, label }) {
   return (
     <div className={styles.editorWrap}>
       <label className={styles.editorLabel} htmlFor="resume-editor">
-        Edit your resume below, then click Re-Run:
+        {label ?? 'Edit your resume below:'}
       </label>
       <textarea
         id="resume-editor"

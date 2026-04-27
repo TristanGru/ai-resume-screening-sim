@@ -8,6 +8,7 @@ export const initialState = {
   currentRound: 1,            // 1 | 2 | 3 during guided phase
   achievements: [],
   explorationMoves: 0,        // re-runs made in exploration (max 5)
+  explorationEdits: 0,        // actual text changes made in exploration (for Explorer achievement)
   explorationBaseline: null,  // robustScore at start of exploration (for Comeback Kid)
 }
 
@@ -116,10 +117,10 @@ function checkAchievements(state, newResults, robustScore) {
     earned.push('comeback')
   }
 
-  // explorer: 3+ edits in exploration mode
+  // explorer: 3+ actual text edits in exploration mode
   if (
     state.gamePhase === 'exploration' &&
-    state.explorationMoves + 1 >= 3 &&
+    state.explorationEdits + 1 >= 3 &&
     !earned.includes('explorer')
   ) {
     earned.push('explorer')
@@ -174,6 +175,7 @@ export function reducer(state, action) {
       let newPhase = state.gamePhase
       let newRound = state.currentRound
       let newExplorationMoves = state.explorationMoves
+      let newExplorationEdits = state.explorationEdits
       let newExplorationBaseline = state.explorationBaseline
 
       if (state.gamePhase === 'guided') {
@@ -186,6 +188,10 @@ export function reducer(state, action) {
         }
       } else if (state.gamePhase === 'exploration') {
         newExplorationMoves = state.explorationMoves + 1
+        const lastSnapshot = state.moveHistory[state.moveHistory.length - 1]?.resumeSnapshot ?? ''
+        if (state.currentResumeText !== lastSnapshot) {
+          newExplorationEdits = state.explorationEdits + 1
+        }
         if (newExplorationMoves >= 5) {
           newPhase = 'complete'
         }
@@ -198,6 +204,7 @@ export function reducer(state, action) {
         currentRound: newRound,
         achievements: newAchievements,
         explorationMoves: newExplorationMoves,
+        explorationEdits: newExplorationEdits,
         explorationBaseline: newExplorationBaseline,
       }
     }
