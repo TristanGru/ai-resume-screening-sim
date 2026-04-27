@@ -21,7 +21,7 @@ const SCREENERS = [
 ]
 
 const ROUNDS = [
-  { num: 1, title: 'Structure & Keywords', desc: 'Make the parser happy, speak the role's language' },
+  { num: 1, title: 'Structure & Keywords', desc: "Make the parser happy, speak the role's language" },
   { num: 2, title: 'Role Signals & Impact', desc: 'Prove you fit, show what you achieved' },
   { num: 3, title: 'Find the Balance', desc: 'Win without triggering spam' },
 ]
