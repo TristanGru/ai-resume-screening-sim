@@ -17,6 +17,19 @@ const SUSPICIOUS_LINK_PATTERNS = [
   /ow\.ly\//i, /is\.gd\//i, /buff\.ly\//i,
 ]
 
+function getOverloadedBulletGroups(resumeText) {
+  const groups = []
+  let currentCount = 0
+  for (const rawLine of resumeText.split('\n')) {
+    const line = rawLine.trim()
+    const isBullet = /^[•\-\*▪–]/.test(line)
+    if (isBullet) { currentCount++; continue }
+    if (currentCount > 0) { groups.push(currentCount); currentCount = 0 }
+  }
+  if (currentCount > 0) groups.push(currentCount)
+  return groups.filter((count) => count > 5)
+}
+
 /**
  * S5 — Spam / Risk (Upgraded)
  * Detects keyword stuffing, oversized skill lists, buzzword abuse, exaggerated claims,
@@ -138,7 +151,16 @@ export function s5_spamRisk(resumeText) {
       )
     }
 
-    // ── 7. Evidence-to-Keyword Balance ──────────────────────────────────────
+    // ── 7. Bullet Overload Per Section ──────────────────────────────────────
+    const overloadedSections = getOverloadedBulletGroups(resumeText)
+    if (overloadedSections.length > 0) {
+      score -= overloadedSections.length * 5
+      deductions.push(
+        `${overloadedSections.length} section(s) have more than 4 bullets. Padding a single role with many bullets can look like ATS manipulation — keep each section to the strongest 3–4 points.`
+      )
+    }
+
+    // ── 8. Evidence-to-Keyword Balance ──────────────────────────────────────
     // High keyword density without accomplishment bullets = spam signal.
     const bulletCount = resumeText.split('\n').filter((l) => /^[\s]*[•\-\*▪–]/.test(l)).length
     const uniqueKeywordCount = Object.keys(wordCounts).filter(
