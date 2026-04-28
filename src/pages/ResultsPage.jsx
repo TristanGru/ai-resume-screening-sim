@@ -92,12 +92,15 @@ export default function ResultsPage() {
   useEffect(() => {
     const prev = prevAchievementsRef.current
     const newlyEarned = achievements.filter((a) => !prev.includes(a))
+    prevAchievementsRef.current = achievements
+
     if (newlyEarned.length > 0) {
       setNewAchievement(newlyEarned[newlyEarned.length - 1])
       const timer = setTimeout(() => setNewAchievement(null), 4000)
       return () => clearTimeout(timer)
     }
-    prevAchievementsRef.current = achievements
+
+    setNewAchievement(null)
   }, [achievements])
 
   function getDelta(screenerID) {
