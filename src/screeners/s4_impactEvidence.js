@@ -4,6 +4,14 @@ const RESULT_WORDS = [
   'increased', 'decreased', 'improved', 'reduced', 'saved', 'grew',
   'generated', 'achieved', 'delivered', 'launched', 'eliminated', 'accelerated',
   'boosted', 'cut', 'doubled', 'raised', 'streamlined', 'transformed',
+  'clarified', 'defined', 'identified', 'organized', 'summarized', 'supported',
+]
+
+const OUTCOME_PHRASES = [
+  'to improve', 'to reduce', 'to support', 'to help', 'to keep', 'to define',
+  'to identify', 'to document', 'to summarize', 'for leadership',
+  'before weekly', 'across the year', 'spending decisions', 'handoff clarity',
+  'planning tasks', 'workflow visibility', 'missing documentation',
 ]
 
 const WEAK_PHRASES = [
@@ -11,6 +19,32 @@ const WEAK_PHRASES = [
   'participated in', 'involved in', 'helped to', 'tasked with',
   'duties included', 'was part of',
 ]
+
+function getOverloadedBulletGroups(resumeText) {
+  const groups = []
+  let currentCount = 0
+
+  for (const rawLine of resumeText.split('\n')) {
+    const line = rawLine.trim()
+    const isBullet = /^[•\-\*▪–]/.test(line)
+
+    if (isBullet) {
+      currentCount++
+      continue
+    }
+
+    if (currentCount > 0) {
+      groups.push(currentCount)
+      currentCount = 0
+    }
+  }
+
+  if (currentCount > 0) {
+    groups.push(currentCount)
+  }
+
+  return groups.filter((count) => count > 4)
+}
 
 /**
  * S4 — Impact & Evidence (Upgraded)
@@ -72,7 +106,7 @@ export function s4_impactEvidence(resumeText) {
       }
 
       // Component 3: Result indicator — shows the outcome/impact
-      if (RESULT_WORDS.some((w) => lower.includes(w))) {
+      if (RESULT_WORDS.some((w) => lower.includes(w)) || OUTCOME_PHRASES.some((p) => lower.includes(p))) {
         bulletQuality++
         resultCount++
       }
@@ -92,9 +126,15 @@ export function s4_impactEvidence(resumeText) {
       totalQuality += bulletQuality
     }
 
-    // Score: map average bullet quality (0–4) to 20–100
+    // Score: map average bullet quality (0-4) to 10-95.
+    // Even strong bullets leave room for sharper causal outcomes and recruiter-ready impact.
     const avgQuality = totalQuality / contentLines.length
-    const score = Math.max(0, Math.min(100, Math.round(20 + (avgQuality / 4) * 80)))
+    const overloadedBulletGroups = getOverloadedBulletGroups(resumeText)
+    const overloadPenalty = Math.min(overloadedBulletGroups.length * 5, 10)
+    const score = Math.max(
+      0,
+      Math.min(100, Math.round(10 + (avgQuality / 4) * 85) - overloadPenalty)
+    )
 
     const deductions = []
 
@@ -111,6 +151,12 @@ export function s4_impactEvidence(resumeText) {
     if (weakBulletCount > 0) {
       deductions.push(
         `${weakBulletCount} bullet(s) use weak phrasing ("responsible for", "helped with", "worked on"). Replace with strong action verbs that own the accomplishment.`
+      )
+    }
+
+    if (overloadedBulletGroups.length > 0) {
+      deductions.push(
+        `${overloadedBulletGroups.length} role/project section(s) have more than 4 bullets. Strong bullets still count, but long blocks can look unfocused; keep each role to the best 3-4 evidence points.`
       )
     }
 

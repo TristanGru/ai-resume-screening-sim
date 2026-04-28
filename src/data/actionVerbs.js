@@ -5,4 +5,6 @@ export const actionVerbs = [
   'led', 'managed', 'optimized', 'produced', 'reduced',
   'resolved', 'spearheaded', 'streamlined', 'transformed', 'upgraded',
   'automated', 'collaborated', 'coordinated', 'deployed', 'migrated',
+  'completed', 'collected', 'documented', 'gathered', 'organized',
+  'prepared', 'reviewed', 'tracked', 'updated',
 ]

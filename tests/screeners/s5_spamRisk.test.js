@@ -25,6 +25,16 @@ I bring holistic value-add and innovative cutting-edge solutions.
 Skills
 synergy, leverage, paradigm, disruptive, innovative, thought leader, holistic, proactive, dynamic, passionate`
 
+const DENSE_BUT_EVIDENCED = `Jordan Lee
+Experience
+- Gathered project requirements from 6 team members to improve client planning documentation and reduce missing information
+- Coordinated with 4 internal stakeholders to track follow-ups and complete action items before weekly project deadlines
+- Documented user stories from 8 weekly meetings to support Agile sprint planning and improve handoff clarity
+- Reviewed 5 Excel reports and basic SQL outputs to identify workflow issues and support process improvement recommendations
+- Built an Excel-based dashboard to track donations, expenses, and remaining funds for 1 organization across the semester
+Skills
+Microsoft Excel, Word, PowerPoint, Google Workspace, Outlook, SQL, Requirements Gathering, Stakeholder Communication, Agile Documentation, User Stories, Sprint Support, Dashboard Reporting, KPI Tracking, Process Improvement, Workflow Analysis, Project Coordination, Data Reporting`
+
 describe('s5_spamRisk', () => {
   it('clean resume scores high (≥ 80)', () => {
     const result = s5_spamRisk(CLEAN_RESUME)
@@ -40,6 +50,13 @@ describe('s5_spamRisk', () => {
   it('buzzword-heavy resume gets penalized', () => {
     const result = s5_spamRisk(BUZZWORD_HEAVY)
     expect(result.score).toBeLessThan(100)
+  })
+
+  it('applies a mild spam penalty to dense skills lists even with evidence', () => {
+    const result = s5_spamRisk(DENSE_BUT_EVIDENCED)
+    expect(result.score).toBeLessThan(100)
+    expect(result.score).toBeGreaterThanOrEqual(90)
+    expect(result.deductions.some((d) => d.includes('dense keyword lists'))).toBe(true)
   })
 
   it('score is always 0–100', () => {

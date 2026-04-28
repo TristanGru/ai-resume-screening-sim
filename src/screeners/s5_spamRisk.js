@@ -59,8 +59,6 @@ export function s5_spamRisk(resumeText) {
       deductions.push(
         `${level} keyword stuffing detected: ${repeatedKeywords.slice(0, 3).join(', ')}. Repeating terms beyond 5× triggers ATS and recruiter spam filters.`
       )
-    } else {
-      score = Math.min(score + 5, 100)
     }
 
     // ── 2. Oversized Skills List Detection ──────────────────────────────────
@@ -73,17 +71,20 @@ export function s5_spamRisk(resumeText) {
         .filter((s) => s.length > 0)
 
       if (items.length > 25) {
-        score -= 20
+        score -= 25
         deductions.push(
           `Skills section has ${items.length} items (> 25). Excessive skill dumps look like ATS manipulation and reduce recruiter trust.`
         )
       } else if (items.length > 20) {
-        score -= 10
+        score -= 15
         deductions.push(
           `Skills section has ${items.length} items (> 20). Slightly excessive — trim to the most relevant 15–20 skills for this role.`
         )
-      } else if (items.length > 0) {
-        score = Math.min(score + 5, 100)
+      } else if (items.length > 15) {
+        score -= 10
+        deductions.push(
+          `Skills section has ${items.length} items. This is not severe spam, but dense keyword lists can look like ATS optimization unless each skill is backed by evidence.`
+        )
       }
     }
 
@@ -103,8 +104,6 @@ export function s5_spamRisk(resumeText) {
         )
       } else if (buzzDensity > 0.02) {
         score -= 5
-      } else {
-        score = Math.min(score + 5, 100)
       }
     }
 
@@ -115,8 +114,6 @@ export function s5_spamRisk(resumeText) {
       deductions.push(
         'Exaggerated claims detected ("rockstar", "10x engineer", "world-class", etc.). Recruiters distrust absolute or impossible-sounding language — use specific, verifiable accomplishments instead.'
       )
-    } else {
-      score = Math.min(score + 5, 100)
     }
 
     // ── 5. Suspicious Link / Contact Risk ───────────────────────────────────
@@ -153,8 +150,6 @@ export function s5_spamRisk(resumeText) {
       deductions.push(
         'High keyword-to-evidence imbalance — many repeated technical terms but very few accomplishment bullets. ATS systems and recruiters flag this pattern as skill padding.'
       )
-    } else if (bulletCount >= 6 && uniqueKeywordCount > 5) {
-      score = Math.min(score + 10, 100)
     }
 
     score = Math.max(0, Math.min(100, score))
