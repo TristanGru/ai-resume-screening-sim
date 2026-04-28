@@ -7,6 +7,7 @@ B.S. Business Administration, State University, Expected May 2025
 
 Experience
 Operations Intern — Lakeside Consulting, Richmond VA (Jun 2023 – Aug 2023)
+Operations Intern - Lakeside Consulting, Richmond VA (Jun 2023 - Aug 2023)
 - Responsible for organizing and distributing project documentation to team members
 - Helped with scheduling weekly team meetings and recording discussion notes
 - Assisted in preparing monthly status updates for department leadership
@@ -33,6 +34,7 @@ B.S. Statistics, Westfield University, Expected Dec 2024
 
 Experience
 Research Assistant — Westfield University, Department of Economics (Jan 2023 – May 2023)
+Research Assistant - Westfield University, Department of Economics (Jan 2023 - May 2023)
 - Responsible for entering and organizing survey data collected from fieldwork
 - Helped with reviewing and checking records for errors or inconsistencies
 - Assisted researchers in preparing summaries of collected information
@@ -61,6 +63,7 @@ Relevant Coursework: Introduction to Programming, Discrete Math, Linear Algebra
 
 Experience
 IT Help Desk Assistant — Riverside University (Sep 2023 – Present)
+IT Help Desk Assistant - Riverside University (Sep 2023 - Present)
 - Responsible for responding to student and faculty technology support tickets
 - Helped with setting up and maintaining lab computers and equipment
 - Assisted in logging and tracking issues submitted to the help desk system

@@ -61,7 +61,7 @@ describe('s4_impactEvidence', () => {
 
   it('credits quantified analyst and administrative bullets as strong evidence', () => {
     const result = s4_impactEvidence(ANALYST_ADMIN_RESUME)
-    expect(result.score).toBeGreaterThanOrEqual(90)
+    expect(result.score).toBeGreaterThanOrEqual(85)
     expect(result.deductions.some((d) => d.includes('more than 4 bullets'))).toBe(true)
   })
 

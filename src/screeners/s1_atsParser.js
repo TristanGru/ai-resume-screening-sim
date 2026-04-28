@@ -45,6 +45,9 @@ export function s1_atsParser(resumeText) {
     // ATS calculates experience duration from date ranges — these are critical.
     const dateRangePattern =
       /\b(?:(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+)?(20\d{2}|19\d{2})\s*[-–—]\s*(?:(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+)?(20\d{2}|19\d{2}|present|current|now)\b/i
+    const looseDateRangePattern =
+      /\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+20\d{2}\b.*\b(20\d{2}|present|current|now)\b/i
+
     const hasDateRange = dateRangePattern.test(text)
     if (!hasDateRange) {
       score -= 10
@@ -55,23 +58,52 @@ export function s1_atsParser(resumeText) {
       score = Math.min(score + 5, 100)
     }
 
-    // ── 4. Education Completeness ────────────────────────────────────────────
-    // ATS extracts structured education fields for candidate filtering.
-    // Easy-to-spot parser issue: repeated dated job headers can create duplicate timeline entries.
+    // ── 3b. Experience Entry Consistency ────────────────────────────────────
+    // ATS reconstructs job timelines by grouping formatted content — inconsistent
+    // formatting can merge or fragment roles.
     const nonEmptyLines = text.split('\n').map((l) => l.trim()).filter(Boolean)
     const datedHeaderLines = nonEmptyLines.filter(
       (line) =>
-        !/^[â€¢\-\*â–ªâ€“]/.test(line) &&
+        !/^[•\-\*▪–]/.test(line) &&
         !/^(experience|education|skills|projects|summary)$/i.test(line) &&
-        dateRangePattern.test(line)
+        (dateRangePattern.test(line) || looseDateRangePattern.test(line))
     )
+
+    const hasExperienceSection = /\bexperience\b/i.test(text)
+    if (hasExperienceSection) {
+      if (datedHeaderLines.length === 0) {
+        score -= 10
+        deductions.push(
+          'No dated role headers found in Experience section. ATS systems identify individual jobs by lines containing a title, company, and date range — without these, roles may be merged into a single unstructured block.'
+        )
+      } else if (datedHeaderLines.length === 1) {
+        score -= 5
+        deductions.push(
+          'Only 1 dated role detected. If you have held multiple positions, ATS may have merged them — ensure each job has its own header line with a distinct date range.'
+        )
+      } else {
+        score = Math.min(score + 5, 100)
+      }
+    }
+
     const hasRepeatedDatedHeader = datedHeaderLines.some((line, index) => {
       if (index === 0) return false
       const previous = datedHeaderLines[index - 1]
-      const role = line.split(/[â€”\-]/)[0]?.trim().toLowerCase()
-      const previousRole = previous.split(/[â€”\-]/)[0]?.trim().toLowerCase()
+      const role = line.split(/[—\-]/)[0]?.trim().toLowerCase()
+      const previousRole = previous.split(/[—\-]/)[0]?.trim().toLowerCase()
       return role && previousRole && role === previousRole
     })
+
+    const hasDuplicateDatedRole = datedHeaderLines.some((line, index) => {
+      if (index === 0) return false
+      const previous = datedHeaderLines[index - 1]
+      const role = line.replace(/\s+(?:—|-)\s+.*$/, '').trim().toLowerCase()
+      const previousRole = previous.replace(/\s+(?:—|-)\s+.*$/, '').trim().toLowerCase()
+      return role && previousRole && role === previousRole
+    })
+
+    // ── 4. Education Completeness ────────────────────────────────────────────
+    // ATS extracts structured education fields for candidate filtering.
 
     const hasSchool = /\b(university|college|institute|school|academy)\b/i.test(text)
     const hasDegree =
@@ -139,7 +171,7 @@ export function s1_atsParser(resumeText) {
       }
     }
 
-    if (hasRepeatedDatedHeader) {
+    if (hasRepeatedDatedHeader || hasDuplicateDatedRole) {
       score -= 5
       deductions.push(
         'Duplicate dated role line detected. ATS timeline parsers may treat repeated job headers as separate jobs; remove accidental duplicate entries.'
@@ -153,7 +185,9 @@ export function s1_atsParser(resumeText) {
     }
 
     const suggestion =
-      score >= 80
+      hasRepeatedDatedHeader || hasDuplicateDatedRole
+        ? 'Remove the duplicate role header so each job appears once with one date range. This lets ATS timeline parsers extract your experience cleanly.'
+        : score >= 80
         ? 'Strong ATS formatting. Double-check that all section headers use standard labels and every job has a date range.'
         : score >= 50
         ? 'Add missing contact info (email + phone), ensure standard section headers are present, and include date ranges for each role.'

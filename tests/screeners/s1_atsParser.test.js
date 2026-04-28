@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { s1_atsParser } from '../../src/screeners/s1_atsParser.js'
+import { STARTER_RESUMES } from '../../src/data/sampleResumes.js'
 
 const WELL_FORMED = `Jane Smith | jane@email.com | 555-123-4567
 
@@ -65,6 +66,14 @@ describe('s1_atsParser', () => {
     const result = s1_atsParser(DUPLICATE_DATED_ROLE)
     expect(result.score).toBeLessThan(100)
     expect(result.deductions.some((d) => d.includes('Duplicate dated role line'))).toBe(true)
+  })
+
+  it('starter resumes have one easy ATS parser fix worth 5 points', () => {
+    for (const resume of Object.values(STARTER_RESUMES)) {
+      const result = s1_atsParser(resume)
+      expect(result.score).toBe(95)
+      expect(result.suggestion).toContain('Remove the duplicate role header')
+    }
   })
 
   it('score is always 0–100', () => {

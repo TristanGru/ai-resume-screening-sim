@@ -17,7 +17,7 @@ const OUTCOME_PHRASES = [
 const WEAK_PHRASES = [
   'responsible for', 'helped with', 'worked on', 'assisted with',
   'participated in', 'involved in', 'helped to', 'tasked with',
-  'duties included', 'was part of',
+  'duties included', 'was part of', 'handled',
 ]
 
 function getOverloadedBulletGroups(resumeText) {
@@ -99,8 +99,15 @@ export function s4_impactEvidence(resumeText) {
         bulletQuality++
       }
 
-      // Component 2: Evidence/metric — contains a number or percentage
-      if (/\d+/.test(stripped)) {
+      // Component 2: Evidence/metric — contains a meaningful number (not just a year).
+      // Strip 4-digit years (1900–2099) before checking so "2023 project" doesn't count as a metric.
+      const strippedOfYears = stripped.replace(/\b(19|20)\d{2}\b/g, '')
+      const hasRealQuantifier = (
+        /\d/.test(strippedOfYears) ||
+        /\b(daily|weekly|monthly|quarterly|annually)\b/i.test(stripped) ||
+        /\$[\d,]+/.test(stripped)
+      )
+      if (hasRealQuantifier) {
         bulletQuality++
         quantifiedCount++
       }
