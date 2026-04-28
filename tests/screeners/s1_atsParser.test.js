@@ -27,6 +27,19 @@ Python SQL
 Projects
 Resume tool`
 
+const DUPLICATE_DATED_ROLE = `Jordan Lee | jordan@email.com | 555-234-5678
+
+Experience
+Administrative Assistant - Campus Student Center (Sep 2022 - May 2023)
+Administrative Assistant - Campus Center (Sep 2022 - May 2023)
+- Managed 40+ weekly inquiries by clarifying needs and directing individuals to resources
+Education
+B.S. Business Administration, State University, Expected May 2025
+Skills
+Excel, SQL, Jira, Documentation
+Projects
+- Built an Excel dashboard for 1 student organization`
+
 describe('s1_atsParser', () => {
   it('well-formed resume scores high (≥ 80)', () => {
     const result = s1_atsParser(WELL_FORMED)
@@ -46,6 +59,12 @@ describe('s1_atsParser', () => {
     const result = s1_atsParser(NO_BULLETS)
     // Resume with no bullets should score poorly — contact info deductions take top 3 slots
     expect(result.score).toBeLessThan(75)
+  })
+
+  it('deducts for repeated dated role headers', () => {
+    const result = s1_atsParser(DUPLICATE_DATED_ROLE)
+    expect(result.score).toBeLessThan(100)
+    expect(result.deductions.some((d) => d.includes('Duplicate dated role line'))).toBe(true)
   })
 
   it('score is always 0–100', () => {

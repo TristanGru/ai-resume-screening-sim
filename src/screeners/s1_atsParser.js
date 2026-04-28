@@ -57,6 +57,22 @@ export function s1_atsParser(resumeText) {
 
     // ── 4. Education Completeness ────────────────────────────────────────────
     // ATS extracts structured education fields for candidate filtering.
+    // Easy-to-spot parser issue: repeated dated job headers can create duplicate timeline entries.
+    const nonEmptyLines = text.split('\n').map((l) => l.trim()).filter(Boolean)
+    const datedHeaderLines = nonEmptyLines.filter(
+      (line) =>
+        !/^[â€¢\-\*â–ªâ€“]/.test(line) &&
+        !/^(experience|education|skills|projects|summary)$/i.test(line) &&
+        dateRangePattern.test(line)
+    )
+    const hasRepeatedDatedHeader = datedHeaderLines.some((line, index) => {
+      if (index === 0) return false
+      const previous = datedHeaderLines[index - 1]
+      const role = line.split(/[â€”\-]/)[0]?.trim().toLowerCase()
+      const previousRole = previous.split(/[â€”\-]/)[0]?.trim().toLowerCase()
+      return role && previousRole && role === previousRole
+    })
+
     const hasSchool = /\b(university|college|institute|school|academy)\b/i.test(text)
     const hasDegree =
       /\b(b\.?s\.?|b\.?a\.?|master'?s?|m\.?s\.?|m\.?b\.?a\.?|ph\.?d\.?|bachelor|associate|diploma)\b/i.test(
@@ -121,6 +137,13 @@ export function s1_atsParser(resumeText) {
           `${shortBullets.length} bullet(s) are very short (under 15 chars). ATS expects complete responsibility or accomplishment statements.`
         )
       }
+    }
+
+    if (hasRepeatedDatedHeader) {
+      score -= 5
+      deductions.push(
+        'Duplicate dated role line detected. ATS timeline parsers may treat repeated job headers as separate jobs; remove accidental duplicate entries.'
+      )
     }
 
     score = Math.max(0, Math.min(100, score))
